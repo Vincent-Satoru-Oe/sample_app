@@ -16,9 +16,37 @@ textarea {
 }
 .center {
 	text-align: center;
+	h1 {
+		margin-bottom: 10px;
+	}
 }
-.center h1 {
-	margin-bottom: 10px;
+
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.7em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: $grayLight;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
 }
 
 
@@ -34,10 +62,10 @@ textarea {
 	padding-top: 9px;
 	font-weight: bold;
 	line-weght: 1;
-}
-#logo:hover {
-	color: #888;
-	text-decoration: none;
+	&:hover {
+		color: #888;
+		text-decoration: none;
+	}
 }
 
 
@@ -48,21 +76,21 @@ footer {
 	padding-top: 5px;
 	border-top: 1px solid #eaeaea;
 	color: #99;
-}
-footer a {
-	color: #f00;
-}
-footer a:hover {
-	color: #00f;
-}
-footer small {
+	a {
+		color: #f00;
+		&:hover {
+			color: #00f;
+		}
+	}	
+	small {
 	float: left;
-}
-footer ul {
-	float: right;
-	list-style: none;
-}
-footer ul li {
-	float: left;
-	margin-left: 10px;
+	}
+	ul {
+		float: right;
+		list-style: none;
+		li {
+			float: left;
+			margin-left: 10px;
+		}
+	}
 }
