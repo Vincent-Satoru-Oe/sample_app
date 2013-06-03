@@ -25,10 +25,20 @@ describe "User Pages" do
     before {visit signup_path}
     let(:submit) {"Create my account"}
 
+
     describe "with invalid information" do
+
+      describe "after submission" do
+        before {click_button submit}
+
+        it {should have_selector('title', text: 'Sign Up')}
+        it {should have_content('error')}
+      end
+
       it "should not create a user" do
         expect {click_button submit}.not_to change(User, :count)
       end
+
     end
 
     describe "with valid information" do
