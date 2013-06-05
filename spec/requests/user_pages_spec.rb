@@ -97,6 +97,16 @@ describe "User Pages" do
       specify {user.reload.name.should == new_name}
       specify {user.reload.email.should == new_email}
     end
+
+    describe "when not authorized" do
+      before do
+        sign_in FactoryGirl.create(:user, email:"other@mail.com")
+        visit edit_user_path(user)
+      end
+
+      it {should have_selector('title', text: full_title(''))}
+      it {should have_selector('div.alert.alert-error')}
+    end
   end
 
 end

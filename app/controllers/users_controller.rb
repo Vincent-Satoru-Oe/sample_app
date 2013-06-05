@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :signed_in_user, only: [:edit, :update]
+  before_filter :correct_user, only:[:edit, :update]
 
 	def show
 		@user = User.find(params[:id])
@@ -40,8 +41,17 @@ class UsersController < ApplicationController
 
     def signed_in_user
       unless signed_in?
-        flash[:notice] = "Please sign in."
+        store_location
+        flash[:notice] = "Please sign in"
         redirect_to signin_url
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      unless current_user?(@user)
+        flash[:error] = "Must be signed as the user to edit"
+        redirect_to root_path
       end
     end
 
