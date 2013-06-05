@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  before_filter :signed_in_user, only: [:edit, :update]
+  before_filter :signed_in_user, only: [:edit, :update, :index, :destroy]
   before_filter :correct_user, only:[:edit, :update]
+  before_filter :admin_user, only: :destroy
 
 	def show
 		@user = User.find(params[:id])
@@ -37,6 +38,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    @users = User.paginate(page: params[:page])
+    unless signed_in?
+      store_location
+      flash[:notice] = "Please sign in"
+      redirect_to signin_url
+    end
+  end
+
+  def destroy
+    destroyed_user_name = User.find(params[:id]).name
+    flash[:success] = "#{destroyed_user_name} destroyed"
+    User.find(params[:id]).destroy
+    redirect_to users_url
+  end
+
   private
 
     def signed_in_user
@@ -51,6 +68,13 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       unless current_user?(@user)
         flash[:error] = "Must be signed as the user to edit"
+        redirect_to root_path
+      end
+    end
+
+    def admin_user
+      unless current_user.admin?
+        flash[:error] = "Must be an admin user to destroy"
         redirect_to root_path
       end
     end
