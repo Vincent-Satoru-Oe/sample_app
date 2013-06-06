@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :signed_in_user, only: [:edit, :update, :index, :destroy]
+  before_filter :signed_in_user, only: [:edit, :update, :destroy]
   before_filter :correct_user, only:[:edit, :update]
   before_filter :admin_user, only: :destroy
 
@@ -10,6 +10,10 @@ class UsersController < ApplicationController
   	
   def new
   	@user = User.new
+    unless !signed_in?
+      flash[:notice] = "Already signed in"
+      redirect_to root_path
+    end
   end
 
 	def create
