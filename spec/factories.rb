@@ -9,4 +9,9 @@ FactoryGirl.define do
 			admin true
 		end
 	end	
+
+	factory :micropost do
+		content "Is a man not entitled to the sweat of his brow?"
+		user
+	end
 end

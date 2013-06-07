@@ -6,6 +6,8 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
+
 	end
   	
   def new
@@ -52,21 +54,18 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    destroyed_user_name = User.find(params[:id]).name
-    flash[:success] = "#{destroyed_user_name} destroyed"
-    User.find(params[:id]).destroy
-    redirect_to users_url
+    if current_user?(User.find(params[:id]))
+      flash[:error] = "Admin cannot destroy self"
+      redirect_to user_path(current_user)
+    else
+      destroyed_user_name = User.find(params[:id]).name
+      flash[:success] = "#{destroyed_user_name} destroyed"
+      User.find(params[:id]).destroy
+      redirect_to users_url
+    end
   end
 
   private
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        flash[:notice] = "Please sign in"
-        redirect_to signin_url
-      end
-    end
 
     def correct_user
       @user = User.find(params[:id])
